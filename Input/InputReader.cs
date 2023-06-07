@@ -1,4 +1,5 @@
 using Helpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,11 @@ namespace WaveFunctionCollapse
         {
             InputImageParameters imageParameters = new InputImageParameters(_inputTilemap);
             return CreateTileBaseGrid(imageParameters);
+        }
+
+        private TileBase[][] CreateTileBaseGrid(InputImageParameters imageParameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }
