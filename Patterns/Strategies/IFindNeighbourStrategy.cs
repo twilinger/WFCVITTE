@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WaveFunctionCollapse;
 
 public class IFindNeighbourStrategy : MonoBehaviour
 {
@@ -14,5 +16,10 @@ public class IFindNeighbourStrategy : MonoBehaviour
     void Update()
     {
         
+    }
+
+    internal Dictionary<int, PatternNeighbours> FindNeighbours(PatternDataResults patternFinderResult)
+    {
+        throw new NotImplementedException();
     }
 }
