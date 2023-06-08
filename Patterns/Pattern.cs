@@ -96,6 +96,7 @@ namespace WaveFunctionCollapse
             {
                 int x = i % gridPartToCompare.Length;
                 int y = i / gridPartToCompare.Length;
+                gridPartToCompare[x][y] = tempList[i];
             }
         }
     }
