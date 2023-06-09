@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -21,22 +23,28 @@ public class TEST : MonoBehaviour
         //    }
         //}
         ValuesManager<TileBase> valueManager = new ValuesManager<TileBase>(grid);
-        StringBuilder builder = null;
-        List<string> list = new List<string>();
-        for (int row = 0; row < grid.Length; row++)
+        PatternManager manager = new PatternManager(2);
+        manager.ProcessGrid(valueManager, false);
+        foreach( Direction dir in Enum.GetValues(typeof(Direction)))
         {
-            builder = new StringBuilder();
-            for (int col = 0; col < grid[0].Length; col++)
-            {
-                builder.Append(valueManager.GetGridValuesIncludingOffset(col, row) + " ");
-            }
-            list.Add(builder.ToString());
+            Debug.Log(dir.ToString() + " " + string.Join(" ", manager.GetPOssibleNeighboursForPatternInDirection(0, dir).ToArray()));
         }
-        list.Reverse();
-        foreach(var item in list)
-        {
-            Debug.Log(item);
-        }
+        //StringBuilder builder = null;
+        //List<string> list = new List<string>();
+        //for (int row = 0; row < grid.Length; row++)
+        //{
+        //    builder = new StringBuilder();
+        //    for (int col = 0; col < grid[0].Length; col++)
+        //    {
+        //        builder.Append(valueManager.GetGridValuesIncludingOffset(col, row) + " ");
+        //    }
+        //    list.Add(builder.ToString());
+        //}
+        //list.Reverse();
+        //foreach (var item in list)
+        //{
+        //    Debug.Log(item);
+        //}
 
     }
 

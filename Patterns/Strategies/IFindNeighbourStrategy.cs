@@ -2,24 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WaveFunctionCollapse;
 
-public class IFindNeighbourStrategy : MonoBehaviour
+namespace WaveFunctionCollapse
 {
-    // Start is called before the first frame update
-    void Start()
+    public interface IFindNeighbourStrategy
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        Dictionary<int, PatternNeighbours> FindNeighbours(PatternDataResults patternFinderResult);
 
-    internal Dictionary<int, PatternNeighbours> FindNeighbours(PatternDataResults patternFinderResult)
-    {
-        throw new NotImplementedException();
     }
 }
