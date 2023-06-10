@@ -18,11 +18,11 @@ namespace WaveFunctionCollapse
         {
             _patternSize = patternSize;
         }
-        public void ProcessGrid<T>(ValuesManager<T> valuesManager, bool equalWeights, string strategyName = null)
+        public void ProcessGrid<T>(ValuesManager<T> valueManager, bool equalWeights, string strategyName = null)
         {
             NeighbourStrategyFactory strategyFactory = new NeighbourStrategyFactory();
             strategy = strategyFactory.CreateInstance(strategyName == null ? _patternSize + "" : strategyName);
-            CreatePatterns(valuesManager, strategy, equalWeights);
+            CreatePatterns(valueManager, strategy, equalWeights);
         }
 
         internal int[][] ConvertPatternToValues<T>(int[][] outputvalues)
@@ -76,9 +76,9 @@ namespace WaveFunctionCollapse
             }
         }
 
-        private void CreatePatterns<T>(ValuesManager<T> valuesManager, IFindNeighbourStrategy strategy, bool equalWeights)
+        private void CreatePatterns<T>(ValuesManager<T> valueManager, IFindNeighbourStrategy strategy, bool equalWeights)
         {
-            var patternFinderResult = PatternFinder.GetPatternDataFromGrid(valuesManager, _patternSize, equalWeights);
+            var patternFinderResult = PatternFinder.GetPatternDataFromGrid(valueManager, _patternSize, equalWeights);
             patternDataIndexDictionary = patternFinderResult.PatternIndexDictionary;
             GetPatternNeighbours(patternFinderResult, strategy);
         }

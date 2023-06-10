@@ -12,7 +12,7 @@ namespace WaveFunctionCollapse
     {
 
 
-        internal static PatternDataResults GetPatternDataFromGrid<T>(ValuesManager<T> valuesManager, int patternSize, bool equalWeights)
+        public static PatternDataResults GetPatternDataFromGrid<T>(ValuesManager<T> valuesManager, int patternSize, bool equalWeights)
         {
             Dictionary<string, PatternData> patternHashcodeDictionary = new Dictionary<string, PatternData>();
             Dictionary<int, PatternData> patternIndexDictionary = new Dictionary<int, PatternData>();
@@ -38,7 +38,8 @@ namespace WaveFunctionCollapse
             }
 
             int[][] patternIndicesGrid = MyCollectionExtension.CreateJaggedArray<int[][]>(patternGridSizeY, patternGridSizeX);
-            int totalFrequency = 0, patternIndex = 0;
+            int totalFrequency = 0;
+            int patternIndex = 0;
             for(int row  = rowMin; row < rowMax; row++)
             {
                 for(int col = colMin; col < colMax; col++)
@@ -73,6 +74,7 @@ namespace WaveFunctionCollapse
 
             }
             CalculateRelativeFrequency(patternIndexDictionary, totalFrequency);
+
             return new PatternDataResults(patternIndicesGrid, patternIndexDictionary);
 
         }
@@ -84,42 +86,50 @@ namespace WaveFunctionCollapse
                 item.CalculateRelativeFrequency(totalFrequency);
             }
         }
-
-        private static void AddNewPattern(Dictionary<string, PatternData> patternHashcodeDictionary, Dictionary<int, PatternData> patternIndexDictionary, string hashValue, Pattern pattern)
+        public static Dictionary<int, PatternNeighbours> FindPossibleNeighboursForAllPatterns(IFindNeighbourStrategy patternFinder, PatternDataResults patterndataResult)
         {
-            PatternData data = new PatternData(pattern);
-            patternHashcodeDictionary.Add(hashValue, data);
-            patternIndexDictionary.Add(pattern.Index, data);
-
+            return patternFinder.FindNeighbours(patterndataResult);
         }
-
-        internal static Dictionary<int, PatternNeighbours> FindPossibleNeighboursForAllPatterns(IFindNeighbourStrategy strategy, PatternDataResults patternFinderResult)
-        {
-            return strategy.FindNeighbours(patternFinderResult);
-        }
-
         public static PatternNeighbours CheckNeighboursInEachDirection(int x, int y, PatternDataResults patternDataResults)
         {
-            PatternNeighbours patternNeighbours = new PatternNeighbours();
-            foreach(Direction dir in Enum.GetValues(typeof(Direction)))
+            PatternNeighbours neighbours = new PatternNeighbours();
+            foreach (Direction dir in Enum.GetValues(typeof(Direction)))
             {
                 int possiblePatternIndex = patternDataResults.GetNeighbourInDirection(x, y, dir);
                 if (possiblePatternIndex >= 0)
                 {
-                    patternNeighbours.AddPatternToDictionary(dir, possiblePatternIndex);
+                    neighbours.AddPatternToDictionary(dir, possiblePatternIndex);
                 }
             }
-            return patternNeighbours;
+            return neighbours;
         }
-
         public static void AddNeighboursToDictionary(Dictionary<int, PatternNeighbours> dictionary, int patternIndex, PatternNeighbours neighbours)
         {
-            if(dictionary.ContainsKey(patternIndex) == false)
+            if (dictionary.ContainsKey(patternIndex) == false)
             {
                 dictionary.Add(patternIndex, neighbours);
             }
             dictionary[patternIndex].AddNeighbour(neighbours);
         }
+        private static void AddNewPattern(Dictionary<string, PatternData> patternHashcodeDictionary, Dictionary<int, PatternData> patternIndexDictionary, string hashValue, Pattern pattern)
+        {
+            PatternData patternData = new PatternData(pattern);
+            patternHashcodeDictionary.Add(hashValue, patternData);
+            patternIndexDictionary.Add(pattern.Index, patternData);
+
+        }
+        public static bool AreArraysTheSame(int[][] arr1, int[][] arr2)
+        {
+            string arr1hash = HashCodeCalculator.CalculateHashCode(arr1);
+            string arr2hash = HashCodeCalculator.CalculateHashCode(arr2);
+            return arr1hash.Equals(arr2hash);
+
+        }
+
+
+
+
+
 
 
     }

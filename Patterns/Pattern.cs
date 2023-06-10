@@ -22,7 +22,7 @@ namespace WaveFunctionCollapse
             _index = index;
         }
 
-        public void SetGridActive(int x, int y, int value)
+        public void SetGridVAlue(int x, int y, int value)
         {
             _grid[y][x] = value;
         }

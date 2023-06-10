@@ -23,8 +23,12 @@ public class TEST : MonoBehaviour
     TileMapOutput output;
     void Start()
     {
-        CreateWFC();
-
+        for (int i = 6; i <= 15001; i++)
+        {
+            CreateWFC();
+            CreateTilemap();
+            //SaveTilemap(i);
+        }
 
     }
 
@@ -35,7 +39,7 @@ public class TEST : MonoBehaviour
         valueManager = new ValuesManager<TileBase>(grid);
         manager = new PatternManager(patternSize);
         manager.ProcessGrid(valueManager, equalWeights);
-        core = new WFCCore(5, 5, 500, manager);
+        core = new WFCCore(outputWidth, outputHeight, maxIteration, manager);
 
     }
 
@@ -46,10 +50,10 @@ public class TEST : MonoBehaviour
         output.CreateOutput(manager, result, outputWidth, outputHeight);
     }
 
-    public void SaveTilemap()
+    public void SaveTilemap(int i)
     {
             //outputTilemap = output.OutputImage;
             GameObject objectToSave = outputTilemap.gameObject;
-            PrefabUtility.SaveAsPrefabAsset(objectToSave,"Assets/TILESETWFC/OUTPUTTILEMAPS/outTilemap.prefab");
+            PrefabUtility.SaveAsPrefabAsset(objectToSave,"Assets/TILESETWFC/OUTPUTTILEMAPS/outTilemap" + i + ".prefab");
     }
 }
